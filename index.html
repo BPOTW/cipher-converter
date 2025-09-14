@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let text = "My name is zain ali";
+      let tempEncodeText = "";
+      let key = "1234567890";
+      let charCode = [];
+
+      function encodeText(text, key) {
+        let random = Number(key);
+
+        let tempEncodedText = text.split("").map((char) => {
+          random = (random * 9301 + 49297) % 233280;
+          let shift = random % 26;
+          return String.fromCharCode(char.charCodeAt(0) + shift);
+        });
+        return tempEncodedText.join("");
+      }
+
+      function decodeText(text, key) {
+        let random = Number(key);;
+        let decodedText = text.split("").map((char) => {
+          random = (random * 9301 + 49297) % 233280;
+          let shift = random % 26;
+          return String.fromCharCode(char.charCodeAt(0) - shift);
+        });
+        return decodedText.join("");
+      }
+      tempEncodeText = encodeText(text,key);
+      console.log(tempEncodeText);
+      console.log(decodeText(tempEncodeText,key));
+    </script>
+  </body>
+</html>
