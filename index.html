@@ -3,78 +3,139 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <h2>Encode text here</h2>
-  <form onsubmit="return false;">
-      <input
-        type="text"
-        id="inputText"
-        name="inputText"
-        placeholder="Enter your text here."
-      />
-      <input
-        type="number"
-        id="seed"
-        name="seed"
-        placeholder="Enter your seed here."
-      />
-      <button onclick="encodeText()">Encode</button>
-      <br>
-      <br>
-      <textarea name="" id="encodeTextArea" rows="10" cols="55" readonly></textarea>
-    </form>
-    <br>
-    <br>
-    <br>
-    <h2>Decode text here</h2>
-    <form onsubmit="decodeText(); return false;">
-      <input
-        type="text"
-        id="inputTextDecode"
-        name="inputTextDecode"
-        placeholder="Enter your text here."
-      />
-      <input
-        type="number"
-        id="seedDecode"
-        name="seedDecode"
-        placeholder="Enter your seed here."
-      />
-      <button type="submit">Decode</button>
-      <br>
-      <br>
-      <textarea name="" id="decodeTextArea" rows="10" cols="55" readonly></textarea>
-    </form>
-  <body>
-    <script>
-      let tempEncodeText = "";
-      let charCode = [];
+    <title>Text Encoder/Decoder</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+      }
 
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+
+      .container {
+        background: #fff;
+        padding: 20px 30px;
+        margin: 20px 0;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 600px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      input,
+      textarea {
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+        transition: border 0.2s;
+      }
+
+      input:focus,
+      textarea:focus {
+        border: 1px solid #007bff;
+      }
+
+      button {
+        background: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      textarea {
+        resize: none;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Encode Text</h2>
+      <form onsubmit="return false;">
+        <input
+          type="text"
+          id="inputText"
+          placeholder="Enter your text"
+        />
+        <input
+          type="number"
+          id="seed"
+          placeholder="Enter your seed"
+        />
+        <button onclick="encodeText()">Encode</button>
+        <textarea id="encodeTextArea" rows="6" readonly></textarea>
+      </form>
+    </div>
+
+    <div class="container">
+      <h2>Decode Text</h2>
+      <form onsubmit="decodeText(); return false;">
+        <input
+          type="text"
+          id="inputTextDecode"
+          placeholder="Enter encoded text"
+        />
+        <input
+          type="number"
+          id="seedDecode"
+          placeholder="Enter your seed"
+        />
+        <button type="submit">Decode</button>
+        <textarea id="decodeTextArea" rows="6" readonly></textarea>
+      </form>
+    </div>
+
+    <script>
       function encodeText() {
-        let text = document.getElementById('inputText').value;
-        let random = Number(document.getElementById('seed').value);
+        let text = document.getElementById("inputText").value;
+        let random = Number(document.getElementById("seed").value);
 
         let tempEncodedText = text.split("").map((char) => {
           random = (random * 9301 + 49297) % 233280;
           let shift = random % 26;
           return String.fromCharCode(char.charCodeAt(0) + shift);
         });
-        let encodetextarea = document.getElementById("encodeTextArea");
-        encodetextarea.value = tempEncodedText.join("");
-        console.log(tempEncodedText.join(""));
+
+        document.getElementById("encodeTextArea").value = tempEncodedText.join("");
       }
 
       function decodeText() {
-        let text = document.getElementById('inputTextDecode').value;
-        let random = Number(document.getElementById('seedDecode').value);
+        let text = document.getElementById("inputTextDecode").value;
+        let random = Number(document.getElementById("seedDecode").value);
+
         let decodedText = text.split("").map((char) => {
           random = (random * 9301 + 49297) % 233280;
           let shift = random % 26;
           return String.fromCharCode(char.charCodeAt(0) - shift);
         });
-        let decodetextarea = document.getElementById("decodeTextArea");
-        decodetextarea.value = decodedText.join("");
+
+        document.getElementById("decodeTextArea").value = decodedText.join("");
       }
     </script>
   </body>
